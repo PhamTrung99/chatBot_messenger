@@ -19,7 +19,7 @@ const getWebHook = (req, res) => {
         if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
             // Responds with the challenge token from the request
-            console.log('WEBHOOK_VERIFIED');
+           // console.log('WEBHOOK_VERIFIED');
             res.status(200).send(challenge);
 
         } else {
@@ -34,10 +34,12 @@ const postWebHook = (req, res) => {
     if (body.object === 'page') {
         body.entry.forEach((entry) => {
             let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
-
+            //console.log(webhook_event);
+            console.log('\n--------------------------------------------');
+            console.log('chạy hàm postWebHook');
+            console.log('--------------------------------------------\n');
             let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
+            //console.log('Sender PSID: ' + sender_psid);
 
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
@@ -54,18 +56,13 @@ const postWebHook = (req, res) => {
 }
 
 function handleMessage(sender_psid, received_message) {
-
+    console.log('\n--------------------------------------------');
+    console.log('chạy hàm handleMessage');
+    console.log("received_message là: "+received_message);
+    console.log('--------------------------------------------\n');
     if(received_message)
     // Checks if the message contains text
     if (received_message.text) {
-        switch(received_message.text){
-            case 'xem phim':  response = {
-                "text": "Oke phim gì nè"
-            };break;
-            case 'nghỉ': response = {
-                "text": "Oke phim gì nè"
-            };break;
-        }
         response = {
             "text": "Tôi không hiểu bạn nói gì"
         };
@@ -106,6 +103,10 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+    console.log('\n--------------------------------------------');
+    console.log('chạy hàm handlePostback');
+    console.log("received_postback là: "+received_postback);
+    console.log('--------------------------------------------\n');
     let response;
 
     // Get the payload for the postback
@@ -123,6 +124,10 @@ function handlePostback(sender_psid, received_postback) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
+    console.log('\n--------------------------------------------');
+    console.log('chạy hàm callSendAPI');
+    console.log("response là: "+response);
+    console.log('--------------------------------------------\n');
     let request_body = {
         "recipient": {
             "id": sender_psid
