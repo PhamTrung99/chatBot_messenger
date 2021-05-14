@@ -1,5 +1,5 @@
 const { getAllMovie, searchMovie } = require('../data/Movies.api');
-const listGenericFilmCard = require('../services/parseFilms');
+const {listGenericFilmCard,listSearchFilmCard} = require('../services/parseFilms');
 const sendApi = require('../services/sendApi');
 let response;
 
@@ -44,8 +44,7 @@ const postWebHook = (req, res) => {
 async function handleMessage(sender_psid, received_message) {
     if (received_message) {
         if (received_message.text) {
-
-            const searchArr = await listGenericFilmCard(searchMovie); 
+            const searchArr = await listSearchFilmCard(); 
             if(searchArr != []){
                 response = {
                     "text":"Phim này hở ???",
@@ -62,11 +61,11 @@ async function handleMessage(sender_psid, received_message) {
                     "text": "Opss không thấy rùi :(("
                 };
             }
-
+            callSendAPI(sender_psid, response);
         } else if (received_message.attachments) {
             // Xử lý khi tin đến là một attachment (image, icon, like, etc)
         }
-        callSendAPI(sender_psid, response);
+        
     }
 
 }
@@ -75,7 +74,7 @@ async function handlePostback(sender_psid, received_postback) {
     let payload = received_postback.payload;
 
     if (payload === 'LIST_MOVIES') {
-        const arr = await listGenericFilmCard(getAllMovie);
+        const arr = await listGenericFilmCard();
         response = {
             "text":"Oke đây nè!",
             "attachment": {
@@ -86,6 +85,7 @@ async function handlePostback(sender_psid, received_postback) {
                 }
             }
         }
+
         await callSendAPI(sender_psid, response);
         response = { "text":"Còn nhiều nữa nha :))"}
         await callSendAPI(sender_psid, response);
