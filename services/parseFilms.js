@@ -11,7 +11,7 @@ const listGenericFilmCard = async() => {
             "subtitle": `"${obj.release_date}"`,
         }
         i++;
-        if(i<9) arrCard.push(obj);
+        if(i<9) arrCard.push(genericCard);
     })
     return arrCard;
 }
