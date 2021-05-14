@@ -41,7 +41,7 @@ const postWebHook = (req, res) => {
     }
 }
 
-function handleMessage(sender_psid, received_message) {
+async function handleMessage(sender_psid, received_message) {
     if (received_message) {
         if (received_message.text) {
 
