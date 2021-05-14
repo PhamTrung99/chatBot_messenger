@@ -16,8 +16,8 @@ const listGenericFilmCard = async() => {
     return arrCard;
 }
 
-const listSearchFilmCard = async() => {
-    const arrdata = await searchMovie();
+const listSearchFilmCard = async(strSearch) => {
+    const arrdata = await searchMovie(strSearch);
     var arrCard = [];
     let i = 0;
     arrdata.forEach((obj)=>{

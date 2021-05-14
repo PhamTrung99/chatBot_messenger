@@ -12,11 +12,11 @@ const getAllMovie = async () => {
     return result;
 }
 
-const searchMovie = async(movieName) =>{
+const searchMovie = async(strSearch) =>{
     var result = [];
     await axios({
         method: 'get',
-        url: process.env.URL+`movie/popular?api_key=${process.env.MOVIE_API_KEY}&query=${movieName}`,
+        url: process.env.URL+`movie/popular?api_key=${process.env.MOVIE_API_KEY}&query=${strSearch}`,
       })
         .then((res) => {
             result = res.data.results;
