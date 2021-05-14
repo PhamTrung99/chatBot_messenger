@@ -1,3 +1,4 @@
+const { getAllMovie, searchMovie } = require('../data/Movies.api');
 const listGenericFilmCard = require('../services/parseFilms');
 const sendApi = require('../services/sendApi');
 let response;
@@ -43,9 +44,24 @@ const postWebHook = (req, res) => {
 function handleMessage(sender_psid, received_message) {
     if (received_message) {
         if (received_message.text) {
-            response = {
-                "text": "Chào mừng đến với Netfix FAKE"
-            };
+
+            const searchArr = await listGenericFilmCard(searchMovie); 
+            if(searchArr != []){
+                response = {
+                    "text":"Phim này hở ???",
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": searchArr
+                        }
+                    }
+                }
+            }else {
+                response = {
+                    "text": "Opss không thấy rùi :(("
+                };
+            }
 
         } else if (received_message.attachments) {
             // Xử lý khi tin đến là một attachment (image, icon, like, etc)
@@ -59,8 +75,9 @@ async function handlePostback(sender_psid, received_postback) {
     let payload = received_postback.payload;
 
     if (payload === 'LIST_MOVIES') {
-        const arr = await listGenericFilmCard();
+        const arr = await listGenericFilmCard(getAllMovie);
         response = {
+            "text":"Oke đây nè!",
             "attachment": {
                 "type": "template",
                 "payload": {
@@ -69,28 +86,13 @@ async function handlePostback(sender_psid, received_postback) {
                 }
             }
         }
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
+        response = { "text":"Còn nhiều nữa nha :))"}
+        await callSendAPI(sender_psid, response);
+
     } else if (payload === 'SEARCH_MOVIE') {
         response = { "text": "Phim gì nào ^-^"}
-        callSendAPI(sender_psid, response);
-
-        response = {
-            "text": "Pick a color:",
-            "quick_replies":[
-              {
-                "content_type":"text",
-                "title":"Red",
-                "payload":"<POSTBACK_PAYLOAD>",
-                "image_url":"http://example.com/img/red.png"
-              },{
-                "content_type":"text",
-                "title":"Green",
-                "payload":"<POSTBACK_PAYLOAD>",
-                "image_url":"http://example.com/img/green.png"
-              }
-            ]
-          }
-          callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
     }
     
 }

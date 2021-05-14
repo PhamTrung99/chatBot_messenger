@@ -1,7 +1,6 @@
-const { getAllMovie } = require("../data/Movies.api");
 
-const listGenericFilmCard = async() => {
-    const arrdata = await getAllMovie();
+const listGenericFilmCard = async(func) => {
+    const arrdata = await func();
     var arrCard = [];
     let i = 0;
     arrdata.forEach((obj)=>{
@@ -11,7 +10,7 @@ const listGenericFilmCard = async() => {
             "subtitle": `${obj.release_date}`,
         }
         i++;
-        if(i<9) arrCard.push(genericCard);
+        if(i<10) arrCard.push(genericCard);
     })
     return arrCard;
 }
