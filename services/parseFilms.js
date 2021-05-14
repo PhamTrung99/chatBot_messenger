@@ -6,9 +6,9 @@ const listGenericFilmCard = async() => {
     let i = 0;
     arrdata.forEach((obj)=>{
         let genericCard = { 
-            "title": `"${obj.title}"`,
-            "image_url": `"${process.env.IMAGE_URL}${obj.poster_path}"`,
-            "subtitle": `"${obj.release_date}"`,
+            "title": `${obj.title}`,
+            "image_url": `${process.env.IMAGE_URL}${obj.poster_path}`,
+            "subtitle": `${obj.release_date}`,
         }
         i++;
         if(i<9) arrCard.push(genericCard);
