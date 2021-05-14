@@ -1,4 +1,3 @@
-const persistentMenu = require('../services/persistentMenu');
 const sendApi = require('../services/sendApi');
 
 require('dotenv').config();
@@ -63,15 +62,12 @@ function handleMessage(sender_psid, received_message) {
     console.log('--------------------------------------------\n');
     if (received_message) {
         // Checks if the message contains text
-        persistentMenu(sender_psid);
         if (received_message.text) {
             response = {
                 "text": "Chào bạn đến với cửa hàng"
             };
-            callSendAPI(sender_psid, response);
+
         } else if (received_message.attachments) {
-
-
             // Get the URL of the message attachment
             //let attachment_url = received_message.attachments[0].payload.url;
 
@@ -101,6 +97,7 @@ function handleMessage(sender_psid, received_message) {
             //     }
             // }
         }
+        callSendAPI(sender_psid, response);
     }
 
 }
@@ -117,10 +114,10 @@ function handlePostback(sender_psid, received_postback) {
     let payload = received_postback.payload;
 
     // Set the response based on the postback payload
-    if (payload === 'yes') {
-        response = { "text": "Thanks!" }
-    } else if (payload === 'no') {
-        response = { "text": "Oops, try sending another image." }
+    if (payload === 'LIST_MOVIES') {
+        response = { "text": "List phim đây nhé" }
+    } else if (payload === 'SEARCH_MOVIE') {
+        response = { "text": "oke Search ngay " }
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
