@@ -1,6 +1,6 @@
+const sendApi = require('../services/sendApi');
+
 require('dotenv').config();
-const request = require('request');
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 const getHomePage = (req, res) => {
@@ -64,7 +64,7 @@ function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         response = {
-            "text": "Tôi không hiểu bạn nói gì"
+            "text": "Chào bạn đến với cửa hàng"
         };
 
     } else if (received_message.attachments) {
@@ -123,7 +123,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+const callSendAPI = async (sender_psid, response) => {
     console.log('\n--------------------------------------------');
     console.log('chạy hàm callSendAPI');
     console.log("response là: "+response);
@@ -136,18 +136,7 @@ function callSendAPI(sender_psid, response) {
     }
 
     // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
+   await sendApi("https://graph.facebook.com/v2.6/me/messages",request_body);
 }
 
 module.exports = { getHomePage, getWebHook, postWebHook };
