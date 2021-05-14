@@ -75,6 +75,7 @@ async function handlePostback(sender_psid, received_postback) {
 
     if (payload === 'LIST_MOVIES') {
         const arr = await listGenericFilmCard();
+        console.log(arr);
         response = {
             "text":"Oke đây nè!",
             "attachment": {
