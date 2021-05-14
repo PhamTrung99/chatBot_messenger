@@ -20,7 +20,7 @@ const getWebHook = (req, res) => {
         if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
             // Responds with the challenge token from the request
-           // console.log('WEBHOOK_VERIFIED');
+            // console.log('WEBHOOK_VERIFIED');
             res.status(200).send(challenge);
 
         } else {
@@ -47,8 +47,7 @@ const postWebHook = (req, res) => {
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
-                persistentMenu();
-                //handlePostback(sender_psid, webhook_event.postback);
+                handlePostback(sender_psid, webhook_event.postback);
             }
         })
         res.status(200).send('EVENT_RECEIVED');
@@ -60,59 +59,57 @@ const postWebHook = (req, res) => {
 function handleMessage(sender_psid, received_message) {
     console.log('\n--------------------------------------------');
     console.log('chạy hàm handleMessage');
-    console.log("received_message là: "+received_message);
+    console.log("received_message là: " + received_message);
     console.log('--------------------------------------------\n');
-    if(received_message)
-    // Checks if the message contains text
-    if (received_message.text) {
-        response = {
-            "text": "Chào bạn đến với cửa hàng"
-        };
+    if (received_message) {
+        // Checks if the message contains text
+        persistentMenu(sender_psid);
+        if (received_message.text) {
+            response = {
+                "text": "Chào bạn đến với cửa hàng"
+            };
+            callSendAPI(sender_psid, response);
+        } else if (received_message.attachments) {
 
-    } else if (received_message.attachments) {
 
+            // Get the URL of the message attachment
+            //let attachment_url = received_message.attachments[0].payload.url;
 
-
-
-        // Get the URL of the message attachment
-        //let attachment_url = received_message.attachments[0].payload.url;
-
-        // response = {
-        //     "attachment": {
-        //         "type": "template",
-        //         "payload": {
-        //             "template_type": "generic",
-        //             "elements": [{
-        //                 "title": "Is this the right picture?",
-        //                 "subtitle": "Tap a button to answer.",
-        //                 "image_url": attachment_url,
-        //                 "buttons": [
-        //                     {
-        //                         "type": "postback",
-        //                         "title": "Yes!",
-        //                         "payload": "yes",
-        //                     },
-        //                     {
-        //                         "type": "postback",
-        //                         "title": "No!",
-        //                         "payload": "no",
-        //                     }
-        //                 ],
-        //             }]
-        //         }
-        //     }
-        // }
+            // response = {
+            //     "attachment": {
+            //         "type": "template",
+            //         "payload": {
+            //             "template_type": "generic",
+            //             "elements": [{
+            //                 "title": "Is this the right picture?",
+            //                 "subtitle": "Tap a button to answer.",
+            //                 "image_url": attachment_url,
+            //                 "buttons": [
+            //                     {
+            //                         "type": "postback",
+            //                         "title": "Yes!",
+            //                         "payload": "yes",
+            //                     },
+            //                     {
+            //                         "type": "postback",
+            //                         "title": "No!",
+            //                         "payload": "no",
+            //                     }
+            //                 ],
+            //             }]
+            //         }
+            //     }
+            // }
+        }
     }
 
-    // Send the response message
-    callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
     console.log('\n--------------------------------------------');
     console.log('chạy hàm handlePostback');
-    console.log("received_postback là: "+received_postback);
+    console.log("received_postback là: " + received_postback);
     console.log('--------------------------------------------\n');
     let response;
 
@@ -133,7 +130,7 @@ function handlePostback(sender_psid, received_postback) {
 const callSendAPI = async (sender_psid, response) => {
     console.log('\n--------------------------------------------');
     console.log('chạy hàm callSendAPI');
-    console.log("response là: "+response);
+    console.log("response là: " + response);
     console.log('--------------------------------------------\n');
     let request_body = {
         "recipient": {
@@ -143,7 +140,7 @@ const callSendAPI = async (sender_psid, response) => {
     }
 
     // Send the HTTP request to the Messenger Platform
-   await sendApi("https://graph.facebook.com/v2.6/me/messages",request_body);
+    await sendApi("https://graph.facebook.com/v2.6/me/messages", request_body);
 }
 
-module.exports = { getHomePage, getWebHook, postWebHook };
+module.exports = { getHomePage, getWebHook, postWebHook, callSendAPI };
