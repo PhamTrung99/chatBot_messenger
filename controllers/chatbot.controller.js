@@ -87,8 +87,8 @@ async function handlePostback(sender_psid, received_postback) {
         }
         await callSendAPI(sender_psid, response);
 
-       // response = { "text":"Còn nhiều nữa nha :))"}
-       // await callSendAPI(sender_psid, response);
+        response = { "text":"Còn nhiều nữa nha :))"}
+        await callSendAPI(sender_psid, response);
 
     } else if (payload === 'SEARCH_MOVIE') {
         response = { "text": "Phim gì nào ^-^"}
