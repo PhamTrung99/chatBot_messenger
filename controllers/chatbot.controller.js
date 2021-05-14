@@ -1,3 +1,4 @@
+const persistentMenu = require('../services/persistentMenu');
 const sendApi = require('../services/sendApi');
 
 require('dotenv').config();
@@ -46,7 +47,8 @@ const postWebHook = (req, res) => {
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
+                persistentMenu();
+                //handlePostback(sender_psid, webhook_event.postback);
             }
         })
         res.status(200).send('EVENT_RECEIVED');
@@ -68,33 +70,38 @@ function handleMessage(sender_psid, received_message) {
         };
 
     } else if (received_message.attachments) {
+
+
+
+
         // Get the URL of the message attachment
-        let attachment_url = received_message.attachments[0].payload.url;
-        response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Is this the right picture?",
-                        "subtitle": "Tap a button to answer.",
-                        "image_url": attachment_url,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "Yes!",
-                                "payload": "yes",
-                            },
-                            {
-                                "type": "postback",
-                                "title": "No!",
-                                "payload": "no",
-                            }
-                        ],
-                    }]
-                }
-            }
-        }
+        //let attachment_url = received_message.attachments[0].payload.url;
+
+        // response = {
+        //     "attachment": {
+        //         "type": "template",
+        //         "payload": {
+        //             "template_type": "generic",
+        //             "elements": [{
+        //                 "title": "Is this the right picture?",
+        //                 "subtitle": "Tap a button to answer.",
+        //                 "image_url": attachment_url,
+        //                 "buttons": [
+        //                     {
+        //                         "type": "postback",
+        //                         "title": "Yes!",
+        //                         "payload": "yes",
+        //                     },
+        //                     {
+        //                         "type": "postback",
+        //                         "title": "No!",
+        //                         "payload": "no",
+        //                     }
+        //                 ],
+        //             }]
+        //         }
+        //     }
+        // }
     }
 
     // Send the response message

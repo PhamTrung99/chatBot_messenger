@@ -1,8 +1,8 @@
 const request = require("request")
 const sendApi = require("./sendApi")
-require('dotenv').config()''
+require('dotenv').config();
 
-module.exports = persistentMenu = () =>{
+module.exports = persistentMenu = async () =>{
     const url = `https://graph.facebook.com/v10.0/me/messenger_profile?access_token=${process.env.PAGE_ACCESS_TOKEN}`
     const request_body = {
         "persistent_menu": [
@@ -30,5 +30,5 @@ module.exports = persistentMenu = () =>{
             }
         ]
     }
-    sendApi(url,request_body)
+    await sendApi(url,request_body);
 }
