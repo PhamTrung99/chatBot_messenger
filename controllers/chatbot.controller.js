@@ -60,6 +60,7 @@ async function handlePostback(sender_psid, received_postback) {
 
     if (payload === 'LIST_MOVIES') {
         const arr = await listGenericFilmCard();
+        console.log(arr);
         response = {
             "attachment": {
                 "type": "template",
@@ -69,7 +70,7 @@ async function handlePostback(sender_psid, received_postback) {
                 }
             }
         }
-        console.log(response);
+        //console.log(response);
     } else if (payload === 'SEARCH_MOVIE') {
         response = { "text": "oke Search ngay " }
     }
