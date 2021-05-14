@@ -46,6 +46,7 @@ async function handleMessage(sender_psid, received_message) {
         if (received_message.text) {
             const searchArr = await listSearchFilmCard(received_message.text); 
             if(searchArr != []){
+                console.log("SEARCHING");
                 response = {
                     "text":"Phim này hở ???",
                     "attachment": {
@@ -75,7 +76,7 @@ async function handlePostback(sender_psid, received_postback) {
 
     if (payload === 'LIST_MOVIES') {
         const arr = await listGenericFilmCard();
-        console.log(arr);
+       // console.log(arr);
         response = {
             "text":"Oke đây nè!",
             "attachment": {
