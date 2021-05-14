@@ -48,7 +48,6 @@ async function handleMessage(sender_psid, received_message) {
             if(searchArr != []){
                 console.log("SEARCHING");
                 response = {
-                    "text":"Phim này hở ???",
                     "attachment": {
                         "type": "template",
                         "payload": {
@@ -78,7 +77,6 @@ async function handlePostback(sender_psid, received_postback) {
         const arr = await listGenericFilmCard();
        // console.log(arr);
         response = {
-            "text":"Oke đây nè!",
             "attachment": {
                 "type": "template",
                 "payload": {
