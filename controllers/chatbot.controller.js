@@ -78,7 +78,6 @@ const callSendAPI = async (sender_psid, response) => {
         "recipient": {
             "id": sender_psid
         },
-        "sender_action":"typing_on",
         "message": response
     }
     await sendApi("https://graph.facebook.com/v2.6/me/messages", request_body);
