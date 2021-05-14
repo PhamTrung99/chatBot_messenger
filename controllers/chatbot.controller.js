@@ -1,5 +1,6 @@
 const listGenericFilmCard = require('../services/parseFilms');
 const sendApi = require('../services/sendApi');
+let response;
 
 require('dotenv').config();
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -55,11 +56,6 @@ function handleMessage(sender_psid, received_message) {
 }
 
 async function handlePostback(sender_psid, received_postback) {
-    console.log('\n--------------------------------------------');
-    console.log('chạy hàm handlePostback');
-    console.log("received_postback là: " + received_postback);
-    console.log('--------------------------------------------\n');
-    let response;
     let payload = received_postback.payload;
 
     if (payload === 'LIST_MOVIES') {
@@ -73,6 +69,7 @@ async function handlePostback(sender_psid, received_postback) {
                 }
             }
         }
+        console.log(response);
     } else if (payload === 'SEARCH_MOVIE') {
         response = { "text": "oke Search ngay " }
     }
@@ -80,10 +77,7 @@ async function handlePostback(sender_psid, received_postback) {
 }
 
 const callSendAPI = async (sender_psid, response) => {
-    console.log('\n--------------------------------------------');
-    console.log('chạy hàm callSendAPI');
-    console.log("response là: " + response);
-    console.log('--------------------------------------------\n');
+
     let request_body = {
         "recipient": {
             "id": sender_psid
