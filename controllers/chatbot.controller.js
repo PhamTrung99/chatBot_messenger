@@ -44,7 +44,7 @@ function handleMessage(sender_psid, received_message) {
     if (received_message) {
         if (received_message.text) {
             response = {
-                "text": "Welcome to Netflix"
+                "text": "Chào mừng đến với Netfix FAKE"
             };
 
         } else if (received_message.attachments) {
@@ -60,7 +60,6 @@ async function handlePostback(sender_psid, received_postback) {
 
     if (payload === 'LIST_MOVIES') {
         const arr = await listGenericFilmCard();
-        console.log(arr);
         response = {
             "attachment": {
                 "type": "template",
@@ -70,11 +69,30 @@ async function handlePostback(sender_psid, received_postback) {
                 }
             }
         }
-        //console.log(response);
+        callSendAPI(sender_psid, response);
     } else if (payload === 'SEARCH_MOVIE') {
-        response = { "text": "oke Search ngay " }
+        response = { "text": "Phim gì nào ^-^"}
+        callSendAPI(sender_psid, response);
+
+        response = {
+            "text": "Pick a color:",
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Red",
+                "payload":"<POSTBACK_PAYLOAD>",
+                "image_url":"http://example.com/img/red.png"
+              },{
+                "content_type":"text",
+                "title":"Green",
+                "payload":"<POSTBACK_PAYLOAD>",
+                "image_url":"http://example.com/img/green.png"
+              }
+            ]
+          }
+          callSendAPI(sender_psid, response);
     }
-    callSendAPI(sender_psid, response);
+    
 }
 
 const callSendAPI = async (sender_psid, response) => {
